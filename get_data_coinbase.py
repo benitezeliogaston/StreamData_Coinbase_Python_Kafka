@@ -43,11 +43,13 @@ class CryptoTracker:
         # Load data in dict
         data = json.loads(message)
 
+
         #data to count
         data_count = {
             'product_id' : data['product_id'],
             'price': float(data['price']),
             'last_size': float(data['last_size']),
+            'side': data['side']
         }
 
         #add 'trasacted_capital' in 'data_count'
@@ -80,7 +82,7 @@ class CryptoTracker:
         print(f"Error: {error}")
 
 #Symbols
-symbols = ['BTC','ETH']
+symbols = ['BTC','ETH','SOL']
 
 #Create instance
 tracker = CryptoTracker(crypto_symbols = symbols)
@@ -95,6 +97,8 @@ ws = websocket.WebSocketApp(socket_url,
                             on_message=tracker.on_message,
                             on_close=tracker.on_close,
                             on_error=tracker.on_error)
+
+
 
 #Run connection 
 ws.run_forever()
