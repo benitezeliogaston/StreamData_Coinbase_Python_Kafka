@@ -43,6 +43,7 @@ class CryptoTracker:
         # Load data in dict
         data = json.loads(message)
 
+        print(data)
 
         #data to count
         data_count = {
@@ -103,23 +104,3 @@ ws = websocket.WebSocketApp(socket_url,
 #Run connection 
 ws.run_forever()
 
-
-"""
-Paso a paso para ocupar kafka:
-
-1 - encender zookoper (controlador de kafka)
-
-    bin/zookeeper-server-start.sh config/zookeeper.properties
-
-2 - Iniciar broker local
-
-    bin/kafka-server-start.sh config/server.properties
-
-    
-3 - Crear topico
-
-    bin/kafka-topics.sh --create --topic crypto_price --bootstrap-server localhost:9092  --replication-factor 1
-
-
-
-"""

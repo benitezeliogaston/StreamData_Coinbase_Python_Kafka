@@ -1,5 +1,4 @@
 from confluent_kafka import Consumer, TopicPartition , KafkaException
-import time
 import json
 
 class CryptoConsumer:
