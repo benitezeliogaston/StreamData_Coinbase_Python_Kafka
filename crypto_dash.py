@@ -18,14 +18,14 @@ app = dash.Dash(__name__)
 app.layout = html.Div(children=[
     html.H1(children='Buy/Sell Information from Coinbase'),
 
-    # Tabla para mostrar la cantidad de criptomonedas transferidas
+    #cryptocurrency counting table
     dash_table.DataTable(
         id='crypto_table',
         columns=[
             {'name': 'Cryptocurrency', 'id': 'cryptocurrency'},
             {'name': 'Amount Transferred', 'id': 'amount_transferred'}
         ],
-        data=[],  # Inicialmente vacía, se llenará con cada actualización
+        data=[],  #will be filled with each update
         style_cell={'textAlign': 'left'},
         style_header={
             'backgroundColor': 'white',
@@ -33,34 +33,30 @@ app.layout = html.Div(children=[
         },
     ),
 
-    # Gráfico de capital transferido
+    #Total capital transferred 
     dcc.Graph(id="capital"),
 
 
-    #Counter sell/buy
+    #Counter sell/buy for each cryptocurrency
     dcc.Graph(id='counter_sell_buy'),
 
-
-    #Grafico de volumen comprador y vendedor
-
-    # Intervalo de tiempo
+    #time interval
     dcc.Interval(
         id='interval_time',
-        interval=5 * 1000,  # actualizar cada segundo
+        interval=5 * 1000,  #update dash for each 5 seconds
         n_intervals=0
     )
 ])
 
 
-# Callback que se ejecuta en cada intervalo
+#Execute callback for each 5 seconds
 @app.callback(
-    [Output('crypto_table', 'data'), # Tabla de criptomonedas transferidas
-     Output('capital', 'figure'),
-     Output('counter_sell_buy','figure'),],  # COntador
-    [Input('interval_time', 'n_intervals')]  # Input: Cada segundo
+    [Output('crypto_table', 'data'), #Cryptocurrency table
+     Output('capital', 'figure'), # Total capital transferred 
+     Output('counter_sell_buy','figure'),],  # Count buy/sell 
+    [Input('interval_time', 'n_intervals')]
 )
 def update_data(n_intervals):
-    print(".")
     
     instancia.update_vars()
 
@@ -89,31 +85,31 @@ def update_data(n_intervals):
 
 
     #Create counter sell/buy
-
     fig = go.Figure(data=[
+
+        #Buy Bar
         go.Bar(
             name='Buy',
             x=['BTC','ETH','SOL'],
             y= [instancia.btc_buy,instancia.eth_buy,instancia.sol_buy],
             marker_color='blue'),
 
+        #Sell Bar
         go.Bar(
             name='Sell',
             x=['BTC','ETH','SOL'],
             y=[instancia.btc_sell,instancia.eth_sell,instancia.sol_sell], 
             marker_color='red')
     ])
-    print(instancia.eth_buy)
-    print(instancia.btc_sell)
 
-    # Cambiar el layout del gráfico
+    #Update details
     fig.update_layout(
-        title='Compra venta de criptos',
+        title='Buy/Sell counter',
 
         xaxis_title='Counters',
         yaxis_title='Count buy/sell',
 
-        barmode='group'  # Esto asegura que las barras estén agrupadas por categoría
+        barmode='group'  # Group bars
     )
 
     return table_data, figure_capital , fig

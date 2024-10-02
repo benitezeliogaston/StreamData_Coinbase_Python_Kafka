@@ -74,6 +74,7 @@ class CryptoConsumer:
                         self.btc_size += data['last_size']
                         self.btc_capital += data['transacted_capital']
 
+                        #Count buy/sell BTC
                         if data['side'] == 'sell':
 
                             self.btc_sell += data['last_size']
@@ -86,6 +87,7 @@ class CryptoConsumer:
                         self.eth_size += data['last_size']
                         self.eth_capital += data['transacted_capital']
 
+                        #Count buy/sell ETH
                         if data['side'] == 'sell':
 
                             self.eth_sell += data['last_size']
@@ -96,7 +98,8 @@ class CryptoConsumer:
                     elif data['product_id'] == 'SOL-USD':
                         self.sol_size += data['last_size']
                         self.sol_capital += data['transacted_capital']
-
+                        
+                        #Count buy/sell SOL
                         if data['side'] == 'sell':
 
                             self.sol_sell += data['last_size']
